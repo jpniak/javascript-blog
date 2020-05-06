@@ -40,12 +40,7 @@ function titleClickHandler(event){
     console.log('Active article is:', targetArticle);
 }
 
-    const links = document.querySelectorAll('.titles a');
-    console.log(links);
-
-    for(let link of links){
-    link.addEventListener('click', titleClickHandler);
-    }
+    
 
 //Second part - submodule 5.4
 
@@ -90,6 +85,13 @@ function generateTitleLinks(){
     }
     
     titleList.innerHTML = html;
+    
+    const links = document.querySelectorAll('.titles a');
+    console.log(links);
+
+    for(let link of links){
+    link.addEventListener('click', titleClickHandler);
+    }
 }
 
 generateTitleLinks();
