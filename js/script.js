@@ -143,8 +143,8 @@ function generateTags(){
     /* END LOOP: for each tag */
     }
         
-    tagsWrapper.innerHTML = html;
     /* insert HTML of all the links into the tags wrapper */
+    tagsWrapper.innerHTML = html;
 
   /* END LOOP: for every article: */
     }
@@ -185,7 +185,9 @@ function tagClickHandler(event){
     }
 
   /* find all tag links with "href" attribute equal to the "href" constant */
-
+    const = // tu właśnie nie miałem pomysłu jak to zrobić
+    
+    
   /* START LOOP: for each found tag link */
 
     /* add class active */
