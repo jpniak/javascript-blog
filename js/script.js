@@ -152,6 +152,8 @@ function generateTags(){
 
 generateTags();
 
+
+
 function tagClickHandler(event){
     console.log('Function tagClickHandler has started');
     
@@ -185,7 +187,7 @@ function tagClickHandler(event){
     }
 
   /* find all tag links with "href" attribute equal to the "href" constant */
-    const = // tu właśnie nie miałem pomysłu jak to zrobić
+     // tu właśnie nie miałem pomysłu jak to zrobić
     
     
   /* START LOOP: for each found tag link */
@@ -202,13 +204,17 @@ function tagClickHandler(event){
 function addClickListenersToTags(){
     
   /* find all links to tags */
-    const tagLinks = document.querySelectorAll('a[href="' + href + '"]')
-
+    const links = document.querySelectorAll('.tags a, .post-tags a');
+    
   /* START LOOP: for each link */
-
+    for(let link of links){
+    
     /* add tagClickHandler as event listener for that link */
+    link.addEventListener('click', tagClickHandler);
+  
 
   /* END LOOP: for each link */
+    }
 }
 
 addClickListenersToTags();
