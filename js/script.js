@@ -48,7 +48,11 @@ function titleClickHandler(event){
           optTitleSelector = '.post-title', 
           optTitleListSelector = '.titles', 
           optArticleTagsSelector = '.post-tags .list',
-            optArticleAuthorSelector = '.post-author';
+          optArticleAuthorSelector = '.post-author',
+          optTagsListSelector = '.tags.list',
+          optCloudClassCount = 5,
+          optCloudClassPrefix = 'tag-size-',
+          optAuthorsListSelector = '.list .authors';
 
 function generateTitleLinks(customSelector = ''){
     console.log('function generateTitleLinks has started');
@@ -103,7 +107,37 @@ generateTitleLinks();
 
 //Module 6.2
 
+function calculateTagsParams(tags){
+    const params = {max: 0, min: 999999};
+    
+    for (let tag in tags){
+        if(tags[tag] > params.max){
+  params.max = tags[tag];
+        }
+        if(tags[tag] < params.min){
+  params.min = tags[tag];
+        }
+        console.log(tag + ' is used ' + tags[tag] + ' times');
+    }
+    
+    return params;
+    
+}
+
+function calculateTagClass(count, params){
+    const normalizedCount = count - params.min;
+    const normalizedMax = params.max - params.min;
+    const percentage = normalizedCount / normalizedMax;
+    const classNumber = Math.floor( percentage * (optCloudClassCount - 1) + 1 );
+    return optCloudClassPrefix + classNumber;
+    
+}
+
 function generateTags(){
+  /* [NEW] create a new variable allTags with an empty object */
+    let allTags = {};
+    
+    
   /* find all articles */
     
     const articles = document.querySelectorAll(optArticleSelector);
@@ -141,6 +175,15 @@ function generateTags(){
       /* add generated code to html variable */
         html = html + linkTag  + ' ';
         console.log(html)
+        
+      /* [NEW] check if this link is NOT already in allTags */
+        if(!allTags.hasOwnProperty(tag)){
+            /* [NEW] add generated code to allTags array */
+            allTags[tag] = 1;
+      } else {
+            allTags[tag]++;
+      }
+        
 
     /* END LOOP: for each tag */
     }
@@ -150,7 +193,22 @@ function generateTags(){
 
   /* END LOOP: for every article: */
     }
+    
+  /* [NEW] find list of tags in right column */
+    const tagList = document.querySelector('.tags');
+
+    const tagsParams = calculateTagsParams(allTags);
+    console.log('tagsParams:', tagsParams);
+    
+    let allTagsHTML = '';
+    
+    for (let tag in allTags){
+        allTagsHTML += '<a class='+ calculateTagClass(allTags[tag], tagsParams) +'  href="#tag-' + tag + '">' + tag + '</a> ';
     }
+    tagList.innerHTML = allTagsHTML;
+    console.log(allTagsHTML);
+}
+    
 
 generateTags();
 
@@ -224,8 +282,11 @@ addClickListenersToTags();
 
 function generateAuthors(){
     console.log('function generateAuthors has started')
-  /* find all articles */
-    
+  
+    /* [MY] create a new variable allAuthors with an empty object */
+    let allAuthors = {};
+
+    /* find all articles */
     const articles = document.querySelectorAll(optArticleSelector);
     
     console.log('Znaleziono nastepujace artykuly:', articles);
@@ -258,9 +319,33 @@ function generateAuthors(){
 
     /* insert HTML of all the links into the author wrapper */
     authorWrapper.innerHTML = html;
+        
+    
+    /* [MY] check if this link is NOT already in allTags */
+        if(!allAuthors.hasOwnProperty(articleAuthor)){
+            /* [NEW] add generated code to allTags array */
+            allAuthors[articleAuthor] = 1;
+      } else {
+            allAuthors[articleAuthor]++;
+      }
 
   /* END LOOP: for every article: */
     }
+    
+    /* [MY] find list of tags in right column */
+    const authorList = document.querySelector('.authors');
+ 
+    //const tagsParams = calculateTagsParams(allTags);
+    //console.log('tagsParams:', tagsParams);
+    
+    let allAuthorsHTML = '';
+    
+    for (let author in allAuthors){
+        allAuthorsHTML += '<li><a href="#tag-' + author + '">' + author + '</a>('+ allAuthors[author] +')</li>';
+    }
+    authorList.innerHTML = allAuthorsHTML;
+    console.log(allAuthorsHTML);
+    
     }
 
  generateAuthors();

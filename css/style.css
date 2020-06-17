@@ -43,3 +43,9 @@ body { background: #fff; font-family: "Source Sans Pro", sans-serif; color: #444
 .post-tags { display: flex; }
 
 .post-tags p { margin: 0 10px 0 0; }
+
+.tag-size-1 {font-size: 18px; text-decoration: none;}
+.tag-size-2 {font-size: 22px; text-decoration: none;}
+.tag-size-3 {font-size: 26; text-decoration: none;}
+.tag-size-4 {font-size: 32px; text-decoration: none;}
+.tag-size-5 {font-size: 38px; text-decoration: none;}
