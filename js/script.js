@@ -1,5 +1,19 @@
 'use strict';
 
+const templates = {
+    articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
+    tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
+    authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
+    tagCloudLink: Handlebars.compile(document.querySelector('#template-tagCloud-link').innerHTML),
+    authorsListLink: Handlebars.compile(document.querySelector('#template-authorsList-link').innerHTML),
+
+}
+
+
+
+
+
+
 function titleClickHandler(event){
     event.preventDefault();
     const clickedElement = this;
@@ -86,7 +100,11 @@ function generateTitleLinks(customSelector = ''){
     //wg mnie to powyzej tez TO robi...
     
     /* create HTML of the link */
-    const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
+        //usunięta linia z powodu wykorzystania handlebars
+        //const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
+    const linkHTMLData = {id: articleId, title: articleTitle};
+    const linkHTML = templates.articleLink(linkHTMLData);
+
     console.log(linkHTML);
         
     /* insert link into html variable */
@@ -169,7 +187,12 @@ function generateTags(){
     console.log('wyswietlam osobno kazdy tag:', tag)
         
       /* generate HTML of the link */
-        const linkTag = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
+        //usunięta linia z owodu wykorzystania handlebars
+        //const linkTag = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
+        
+        const linkTagData = {id: tag, title: tag};
+        const linkTag = templates.tagLink(linkTagData);
+
         console.log(linkTag);
 
       /* add generated code to html variable */
@@ -200,13 +223,28 @@ function generateTags(){
     const tagsParams = calculateTagsParams(allTags);
     console.log('tagsParams:', tagsParams);
     
-    let allTagsHTML = '';
+    //poniższa linia usunięta ze względu na zastosowanie handlebars
+    //let allTagsHTML = '';
+    
+    const allTagsData = {tags: []}; //zamiast tej powyżej
+
+    
     
     for (let tag in allTags){
-        allTagsHTML += '<a class='+ calculateTagClass(allTags[tag], tagsParams) +'  href="#tag-' + tag + '">' + tag + '</a> ';
+        //poniższa linia usunięta ze względu na zastosowanie handlebars
+        //allTagsHTML += '<a class='+ calculateTagClass(allTags[tag], tagsParams) +'  href="#tag-' + tag + '">' + tag + '</a> ';
+        
+        allTagsData.tags.push({
+        tag: tag,
+        count: allTags[tag],
+        className: calculateTagClass(allTags[tag], tagsParams)
+        });
+
+        
     }
-    tagList.innerHTML = allTagsHTML;
-    console.log(allTagsHTML);
+    tagList.innerHTML = templates.tagCloudLink(allTagsData);
+    //console.log(allTagsHTML);
+    console.log(allTagsData);
 }
     
 
@@ -309,7 +347,12 @@ function generateAuthors(){
 
     
       /* generate HTML of the link */
-        const linkAuthor = '<a href="#-tag' + articleAuthor + '">' + articleAuthor + '</a>';
+        //const linkAuthor = '<a href="#-tag' + articleAuthor + '">' + articleAuthor + '</a>';
+        
+        const linkAuthorData = {id: articleAuthor, title: articleAuthor};
+        const linkAuthor = templates.authorLink(linkAuthorData);
+
+        
         console.log(linkAuthor);
 
       /* add generated code to html variable */
@@ -335,16 +378,26 @@ function generateAuthors(){
     /* [MY] find list of tags in right column */
     const authorList = document.querySelector('.authors');
  
-    //const tagsParams = calculateTagsParams(allTags);
-    //console.log('tagsParams:', tagsParams);
     
-    let allAuthorsHTML = '';
+    //linia poniżej usunieta ze względu na zastosowanie handlebars
+   // let allAuthorsHTML = '';
+    
+    const allAuthorsData = {authors: []};
+
     
     for (let author in allAuthors){
-        allAuthorsHTML += '<li><a href="#-tag' + author + '">' + author + '</a>('+ allAuthors[author] +')</li>';
+        //poniższ linia usunięta ze względu na zastosowanie handlebars
+        // allAuthorsHTML += '<li><a href="#-tag' + author + '">' + author + '</a>('+ allAuthors[author] +')</li>';
+        
+        
+        allAuthorsData.authors.push({
+        author: author,
+        count: allAuthors[author],
+        });
+
     }
-    authorList.innerHTML = allAuthorsHTML;
-    console.log(allAuthorsHTML);
+    authorList.innerHTML = templates.authorsListLink(allAuthorsData);
+    console.log(allAuthorsData);
     
     }
 
